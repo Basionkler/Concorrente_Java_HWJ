@@ -1,9 +1,7 @@
 package test;
 
-import static org.junit.Assert.*;
-
 import abstracts.TreeAdder;
-import auxiliaries.BinaryTreeAdderAux1;
+import auxiliaries.BinaryTreeAdderAux3;
 import factory.TreeFactory;
 import interfaces.Node;
 import org.junit.Before;
@@ -11,7 +9,9 @@ import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
 
-public class Test_HWJ1 {
+import static org.junit.Assert.assertEquals;
+
+public class Test_HWJ3 {
     private static final int OPERATIONS = 1500;
     private int cpu;
     private TreeFactory treeFactory;
@@ -25,22 +25,31 @@ public class Test_HWJ1 {
     }
 
     @Test
-    public void testEmptyTree() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
+    public void testEmptytree() throws ExecutionException, InterruptedException {
+        this.tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
         assertEquals(tree.computeOnerousSum(null), treeFactory.getTreeNodes(null));
     }
 
-    /* TEST-CASE su albero binario bilanciato */
+    /*Profondità minore alla soglia */
     @Test
-    public void testRootTreeDepth() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
+    public void testRootTreeDepth0() throws ExecutionException, InterruptedException {
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
         Node root = treeFactory.initBinaryTree(0);
         assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
     }
 
+    /*Profondità minore alla soglia */
     @Test
-    public void testTreeDepth() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
+    public void testRootTreeDepth3() {
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
+        Node root = treeFactory.initBinaryTree(3);
+        assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
+    }
+
+    /*Profondità maggiore alla soglia */
+    @Test
+    public void testTreeDepth5() {
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
         Node root = treeFactory.initBinaryTree(5);
         assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
     }
@@ -48,48 +57,35 @@ public class Test_HWJ1 {
     /* TEST-CASE su albero binario NON bilanciato */
     @Test
     public void testRootTreeDepthNotBalanced() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
         Node root = treeFactory.initBinaryTreeNotBalanced(0, 0);
         assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
     }
 
     @Test
     public void testTreeDepthNotBalancedRight() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
-        Node root = treeFactory.initBinaryTreeNotBalanced(2, 4);
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
+        Node root = treeFactory.initBinaryTreeNotBalanced(7, 10);
         assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
     }
 
     @Test
     public void testTreeDepthNotBalancedLeft() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
-        Node root = treeFactory.initBinaryTreeNotBalanced(6, 1);
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
+        Node root = treeFactory.initBinaryTreeNotBalanced(10, 7);
         assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
     }
 
     @Test
-    public void testGetTreeDepthRoot() {
-        Node root = treeFactory.initBinaryTree(0);
-        assertEquals(0, treeFactory.getTreeDepth(root));
-    }
-
-    @Test
-    public void testGetTreeDepth() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
-        Node root = treeFactory.initBinaryTree(5);
-        assertEquals(5, treeFactory.getTreeDepth(root));
-    }
-
-    @Test
     public void testTreeDepthStronglyNotBalancedLeft() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
         Node root = treeFactory.initBinaryTreeNotBalanced(25, 0);
         assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
     }
 
     @Test
     public void testTreeDepthStronglyNotBalancedRight() {
-        tree = new BinaryTreeAdderAux1(this.cpu, OPERATIONS);
+        tree = new BinaryTreeAdderAux3(this.cpu, OPERATIONS);
         Node root = treeFactory.initBinaryTreeNotBalanced(0, 25);
         assertEquals(tree.computeOnerousSum(root), treeFactory.getTreeNodes(root));
     }

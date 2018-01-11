@@ -8,23 +8,22 @@ import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Lock;
 
-public class TaskFactory implements Callable<Integer> {
+public class TaskFactory1 implements Callable<Integer> {
     private Queue<Node> buffer;
-    private boolean emptyBuffer;
     private OnerousProcessor cpu;
     private Lock lock;
 
-    public TaskFactory(Queue<Node> buffer, int operations, Lock lock, boolean emptyBuffer) {
+    public TaskFactory1(Queue<Node> buffer, int operations, Lock lock) {
         this.buffer = buffer;
         this.cpu = new FakeProcessor(operations);
         this.lock = lock;
-        this.emptyBuffer = emptyBuffer;
     }
 
     @Override
     public Integer call() throws Exception {
         Integer result = 0;
-        while(emptyBuffer == false) { // Continua finché il buffer non è vuoto
+        boolean emptyBuffer = false;
+        while(!emptyBuffer) {
             Node current = null;
             lock.lock();
             try {
